@@ -17,7 +17,7 @@ namespace Everybody_Gets_One
 
 			Harmony harmony = new Harmony("Uuugggg.rimworld.Everybody_Gets_One.main");
 
-			harmony.PatchAll();
+			harmony.PatchAll(Assembly.GetExecutingAssembly());
 		}
 
 //		public override void DoSettingsWindowContents(Rect inRect)
