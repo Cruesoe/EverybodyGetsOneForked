@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+  <TD.RecipeCannotHaveSurplus>(This recipe cannot have a surplus count because it has multiple ingredients.)</TD.RecipeCannotHaveSurplus>
+  <TD.EditWhoCountsAsAPerson>Edit who counts as a person</TD.EditWhoCountsAsAPerson>
+
+  <EGO_PersonCounterTitle>Who counts as a person: {0}</EGO_PersonCounterTitle>
+  <EGO_CountColonists>Colonists</EGO_CountColonists>
+  <EGO_CountSlaves>Slaves</EGO_CountSlaves>
+  <EGO_CountPrisoners>Prisoners</EGO_CountPrisoners>
+  <EGO_CountQuestLodgers>Quest lodgers</EGO_CountQuestLodgers>
+  <EGO_CountMechanoids>Colony mechanoids</EGO_CountMechanoids>
+  <EGO_CountAnimals>Colony animals</EGO_CountAnimals>
+  <EGO_CountThisMap>Count people on this bill's map</EGO_CountThisMap>
+  <EGO_CountAllMaps>Count people on every map</EGO_CountAllMaps>
+  <EGO_CountedNow>Counted now: {0}</EGO_CountedNow>
+  <EGO_SetAsDefault>Set as default</EGO_SetAsDefault>
+  <EGO_SetAsDefaultTip>Bills that haven't been changed from the default count people this way.</EGO_SetAsDefaultTip>
+  <EGO_ResetCounter>Reset to default</EGO_ResetCounter>
+  <EGO_RequiresDlc>Requires {0}.</EGO_RequiresDlc>
+</LanguageData>
