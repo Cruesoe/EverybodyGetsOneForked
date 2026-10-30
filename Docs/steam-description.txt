@@ -1,26 +1,22 @@
 [b]Set a bill to craft things until there's one for each person in the colony.[/b]
 
-A fork of Everybody Gets One - Continued that needs only Harmony. The original relies on TD Find Library for one window; this version has that window built in.
+A fork of Everybody Gets One - Continued that needs only Harmony. The original relies on TD Find Library for one window; this version has that window built in, as a simple checklist.
 
 [h2]Features[/h2]
 [list]
 [*][b]Do one per person (+ X)[/b] keeps one item for every person, plus X spare.
 [*][b]Do X per person[/b] keeps X items for every person.
 [*][b]Do while more than X[/b] crafts while you have more than X of the recipe's ingredient.
-[*]Each bill using a per-person mode has an "Edit who counts as a person" button: count colonists, slaves, prisoners, quest lodgers, colony mechanoids or colony animals, on the bill's map or on every map.
+[*]Each per-person bill has an "Edit who counts as a person" button, where you can count colonists, slaves, prisoners, quest lodgers, colony mechanoids or colony animals, on the bill's map or on every map.
 [*]"Set as default" makes those choices the default for every bill you haven't changed.
 [*]"Count equipped" counts only the pawns the bill counts as people.
-[*]Copying and pasting a bill copies who it counts too.
+[*]Copying and pasting a bill also copies who it counts.
 [/list]
 
 [h2]Compatibility[/h2]
-Not compatible with Everybody Gets One - Continued, because both add the same bill modes: disable it before enabling this one.
+Not compatible with Everybody Gets One - Continued, because both add the same bill modes, so disable it before enabling this one.
 Works with Better Workbench Management, including its bill mirroring.
 Safe to add to an existing save. Bills from the original keep their mode, but who counts as a person resets to colonists.
-
-[h2]FAQ[/h2]
-[b]Why use this instead of the original?[/b]
-It needs no TD Find Library, just Harmony, and choosing who counts is a simple checklist.
 
 [h2]Credits[/h2]
 Based on [b]Uuugggg[/b]'s Everybody Gets One and [b]Memegoddess[/b]'s [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3530806680]Everybody Gets One - Continued[/url] (MIT).
