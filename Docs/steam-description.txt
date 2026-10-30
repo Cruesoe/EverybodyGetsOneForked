@@ -17,5 +17,20 @@ Not compatible with Everybody Gets One - Continued, because both add the same bi
 Works with Better Workbench Management, including its bill mirroring.
 Safe to add to an existing save. Bills from the original keep their mode, but who counts as a person resets to colonists.
 
+[h2]FAQ[/h2]
+[b]Why use this instead of Everybody Gets One - Continued?[/b]
+[list]
+[*]It needs only Harmony. The original also needs TD Find Library, a full search framework that it uses for a single window.
+[*]Choosing who counts as a person is a short list of checkboxes with a live count, instead of a general-purpose search editor.
+[*]Better Workbench Management support is part of the mod itself, so mirrored bills copy who they count.
+[*]After a per-person bill finishes an item, the colony's resource counts are refreshed. The original includes this fix but never turns it on.
+[/list]
+
+[b]What does the original do that this one doesn't?[/b]
+Its search editor can filter people by almost any property and reuse saved TD Find Library searches. If you need a rule more specific than the categories above, stay with the original.
+
+[b]Can I switch from the original in an existing save?[/b]
+Yes. Disable the original and enable this one. Bills keep their repeat mode, and any custom "who counts" search resets to colonists.
+
 [h2]Credits[/h2]
 Based on [b]Uuugggg[/b]'s Everybody Gets One and [b]Memegoddess[/b]'s [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3530806680]Everybody Gets One - Continued[/url] (MIT).
