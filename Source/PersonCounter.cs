@@ -16,15 +16,22 @@ namespace Everybody_Gets_One
 		public bool animals;
 		public bool allMaps;
 
+		// Count cached for one tick and one map
+		private int cachedTick = -1;
+		private Map cachedMap;
+		private int cachedCount;
+
+		// Cheap checks first: the quest lodger check walks every quest's parts
 		public bool Counts(Pawn pawn)
 		{
-			if (pawn.IsQuestLodger()) return questLodgers;
-			if (pawn.IsSlaveOfColony) return slaves;
 			if (pawn.IsPrisonerOfColony) return prisoners;
+			if (pawn.Faction != Faction.OfPlayer) return false;
+			if (pawn.IsSlaveOfColony) return slaves;
 			if (pawn.IsColonyMech) return mechanoids;
-			if (pawn.IsColonist) return colonists;
-			if (pawn.Faction == Faction.OfPlayer && pawn.RaceProps.Animal) return animals;
-			return false;
+			if (pawn.RaceProps.Animal) return animals;
+			if (!pawn.IsColonist) return false;
+			if (pawn.IsQuestLodger()) return questLodgers;
+			return colonists;
 		}
 
 		public IEnumerable<Pawn> CountedPawns(Map billMap)
@@ -33,9 +40,30 @@ namespace Everybody_Gets_One
 			return maps.SelectMany(map => map.mapPawns.AllPawnsSpawned).Where(Counts);
 		}
 
-		public int Count(Map billMap) => CountedPawns(billMap).Count();
+		public int Count(Map billMap)
+		{
+			int tick = Find.TickManager.TicksGame;
+			if (tick != cachedTick || billMap != cachedMap)
+			{
+				cachedCount = CountedPawns(billMap).Count();
+				cachedTick = tick;
+				cachedMap = billMap;
+			}
+			return cachedCount;
+		}
 
-		public PersonCounter Clone() => (PersonCounter)MemberwiseClone();
+		public void ClearCache() => cachedTick = -1;
+
+		public PersonCounter Clone()
+		{
+			PersonCounter clone = (PersonCounter)MemberwiseClone();
+			clone.ClearCache();
+			return clone;
+		}
+
+		public bool SameSettings(PersonCounter other) =>
+			colonists == other.colonists && slaves == other.slaves && prisoners == other.prisoners && questLodgers == other.questLodgers &&
+			mechanoids == other.mechanoids && animals == other.animals && allMaps == other.allMaps;
 
 		public void ExposeData()
 		{

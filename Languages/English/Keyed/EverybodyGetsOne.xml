@@ -13,6 +13,8 @@
   <EGO_CountThisMap>Count people on this bill's map</EGO_CountThisMap>
   <EGO_CountAllMaps>Count people on every map</EGO_CountAllMaps>
   <EGO_CountedNow>Counted now: {0}</EGO_CountedNow>
+  <EGO_SetAsDefault>Set as default</EGO_SetAsDefault>
+  <EGO_SetAsDefaultTip>Bills that haven't been changed from the default count people this way.</EGO_SetAsDefaultTip>
   <EGO_ResetCounter>Reset to default</EGO_ResetCounter>
   <EGO_RequiresDlc>Requires {0}.</EGO_RequiresDlc>
 </LanguageData>

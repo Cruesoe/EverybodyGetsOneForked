@@ -3,19 +3,19 @@
   <!-- defNames match the original Everybody Gets One so existing bills keep their mode -->
   <BillRepeatModeDef>
     <defName>TD_PersonCount</defName>
-    <label>One per person (+ X)</label>
+    <label>do one per person (+ X)</label>
     <listOrder>15</listOrder>
   </BillRepeatModeDef>
 
   <BillRepeatModeDef>
     <defName>TD_XPerPerson</defName>
-    <label>X per person</label>
+    <label>do X per person</label>
     <listOrder>17</listOrder>
   </BillRepeatModeDef>
 
   <BillRepeatModeDef>
     <defName>TD_WithSurplusIng</defName>
-    <label>With Surplus</label>
+    <label>do while more than X</label>
     <listOrder>25</listOrder>
   </BillRepeatModeDef>
 </Defs>

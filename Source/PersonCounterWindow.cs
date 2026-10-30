@@ -1,17 +1,19 @@
-using HarmonyLib;
 using RimWorld;
 using UnityEngine;
 using Verse;
 
 namespace Everybody_Gets_One
 {
+	// Edits who a bill counts; a bill gets its own counter only once its settings differ from the default
 	public class PersonCounterWindow : Window
 	{
 		private readonly Bill_Production bill;
+		private PersonCounter counter;
 
 		public PersonCounterWindow(Bill_Production bill)
 		{
 			this.bill = bill;
+			counter = bill.HasPersonCounter() ? bill.GetPersonCounter() : bill.PersonCounterOrDefault().Clone();
 			forcePause = true;
 			doCloseX = true;
 			absorbInputAroundWindow = true;
@@ -19,12 +21,12 @@ namespace Everybody_Gets_One
 			onlyOneOfTypeAllowed = true;
 		}
 
-		public override Vector2 InitialSize => new Vector2(460f, 420f);
+		private static PersonCountWorldComp Comp => Find.World.GetComponent<PersonCountWorldComp>();
+
+		public override Vector2 InitialSize => new Vector2(460f, 460f);
 
 		public override void DoWindowContents(Rect inRect)
 		{
-			PersonCounter counter = bill.GetPersonCounter();
-
 			Listing_Standard listing = new Listing_Standard();
 			listing.Begin(inRect);
 
@@ -46,12 +48,24 @@ namespace Everybody_Gets_One
 			if (listing.RadioButton("EGO_CountAllMaps".Translate(), counter.allMaps))
 				counter.allMaps = true;
 
+			if (!bill.HasPersonCounter() && !counter.SameSettings(Comp.defaultCounter))
+				bill.SetPersonCounter(counter);
+			counter.ClearCache();
+
 			listing.GapLine();
 			listing.Label("EGO_CountedNow".Translate(counter.Count(bill.Map)));
 
 			listing.Gap();
-			if (listing.ButtonText("EGO_ResetCounter".Translate()))
+			if (listing.ButtonText("EGO_SetAsDefault".Translate(), "EGO_SetAsDefaultTip".Translate()))
+			{
+				Comp.defaultCounter = counter.Clone();
 				bill.RemovePersonCounter();
+			}
+			if (listing.ButtonText("EGO_ResetCounter".Translate()))
+			{
+				bill.RemovePersonCounter();
+				counter = Comp.defaultCounter.Clone();
+			}
 
 			listing.End();
 		}
@@ -67,24 +81,6 @@ namespace Everybody_Gets_One
 			else
 				TooltipHandler.TipRegion(rect, "EGO_RequiresDlc".Translate(ModLister.GetExpansionWithIdentifier(requiredPackageId)?.label ?? requiredPackageId));
 			listing.Gap(listing.verticalSpacing);
-		}
-	}
-
-	[HarmonyPatch(typeof(Dialog_BillConfig), "DoIngredientConfigPane")]
-	public static class InsertPersonCounterButton
-	{
-		//protected virtual void DoIngredientConfigPane(float x, ref float y, float width, float height)
-		public static void Prefix(Bill_Production ___bill, float x, ref float y, float width, ref float height)
-		{
-			if (___bill.repeatMode == RepeatModeDefOf.TD_PersonCount || ___bill.repeatMode == RepeatModeDefOf.TD_XPerPerson)
-			{
-				Rect rect = new(x, y, width, 30);
-				if (Widgets.ButtonText(rect, "TD.EditWhoCountsAsAPerson".Translate()))
-					___bill.OpenPersonCounter();
-
-				y += 30 + 6;
-				height -= 30 + 6;
-			}
 		}
 	}
 }

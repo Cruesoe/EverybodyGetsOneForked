@@ -11,11 +11,11 @@
   <description>Set a bill to craft things until there's one for each person in the colony.
 
 Adds three bill repeat modes:
-- One per person (+ X): keep one for every person, plus X spare.
-- X per person: keep X for every person.
-- With Surplus: craft while you have more than X of the ingredient.
+- Do one per person (+ X): keep one for every person, plus X spare.
+- Do X per person: keep X for every person.
+- Do while more than X: craft while you have more than X of the ingredient.
 
-Choose who counts as a person for each bill: colonists, slaves, prisoners, quest lodgers, colony mechanoids and colony animals, on the bill's map or on every map.
+Choose who counts as a person for each bill, or set a default for the colony: colonists, slaves, prisoners, quest lodgers, colony mechanoids and colony animals, on the bill's map or on every map.
 
 A fork of Everybody Gets One - Continued that needs only Harmony: no TD Find Library. Don't use it alongside the original.</description>
   <modDependencies>
