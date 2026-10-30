@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Collections.Generic;
@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Verse;
 using RimWorld;
 using HarmonyLib;
-using TD_Find_Lib;
 
 namespace Everybody_Gets_One
 {
@@ -38,12 +37,8 @@ namespace Everybody_Gets_One
 		{
 			if (bill.repeatMode == RepeatModeDefOf.TD_PersonCount || bill.repeatMode == RepeatModeDefOf.TD_XPerPerson)
 			{
-				QuerySearch search = bill.GetPersonCounter();
-
-				search.RemakeList();
-
 				//Only return pawns with equipment + apparel + inventory as that is what "Count Equipped" checks.
-				return search.result.allThings.Where(t => t is Pawn p && p.equipment != null && p.apparel != null && p.inventory != null).Cast<Pawn>().ToList();
+				return bill.PersonCounterOrDefault().CountedPawns(bill.Map).Where(p => p.equipment != null && p.apparel != null && p.inventory != null).ToList();
 			}
 			return mapPawns.FreeColonistsSpawned;
 		}

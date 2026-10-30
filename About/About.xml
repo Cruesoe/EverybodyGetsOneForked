@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-	<name>Everybody Gets One - Continued</name>
-	<author>Uuugggg</author>
-	<supportedVersions>
-		<li>1.1</li>
-		<li>1.2</li>
-		<li>1.3</li>
-		<li>1.4</li>
-		<li>1.5</li>
-		<li>1.6</li>
-		<li>1.7</li>
-	</supportedVersions>
-	<packageId>Memegoddess.EverybodyGetsOne</packageId>
-	<description>Set a bill to craft things until there's one for each member of the colony</description>
-	<url>https://steamcommunity.com/sharedfiles/filedetails/?id=3530806680</url>
-	<modDependencies>
-		<li>
-			<packageId>brrainz.harmony</packageId>
-			<displayName>Harmony</displayName>
-			<steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
-			<downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
-		</li>
-		<li>
-			<packageId>Memegoddess.TDFindLib</packageId>
-			<displayName>TD Find Library</displayName>
-			<steamWorkshopUrl>steam://url/CommunityFilePage/3529443295</steamWorkshopUrl>
-			<downloadUrl>https://github.com/MemeGoddess/RimWorld-TDFindLib</downloadUrl>
-		</li>
-	</modDependencies>
-	<loadAfter>
-		<li>Memegoddess.TDFindLib</li>
-		<li>falconne.BWM</li>
-	</loadAfter>
-	<modIconPath IgnoreIfNoMatchingField="True">TDEverybodyGetsOneIcon</modIconPath>
+  <name>Everybody Gets One Forked</name>
+  <author>Cruesoe, Uuugggg, Memegoddess</author>
+  <packageId>cruesoe.everybodygetsoneforked</packageId>
+  <modVersion IgnoreIfNoMatchingField="True">261030</modVersion>
+  <supportedVersions>
+    <li>1.6</li>
+    <li>1.7</li>
+  </supportedVersions>
+  <description>Set a bill to craft things until there's one for each person in the colony.
+
+Adds three bill repeat modes:
+- One per person (+ X): keep one for every person, plus X spare.
+- X per person: keep X for every person.
+- With Surplus: craft while you have more than X of the ingredient.
+
+Choose who counts as a person for each bill: colonists, slaves, prisoners, quest lodgers, colony mechanoids and colony animals, on the bill's map or on every map.
+
+A fork of Everybody Gets One - Continued that needs only Harmony: no TD Find Library. Don't use it alongside the original.</description>
+  <modDependencies>
+    <li>
+      <packageId>brrainz.harmony</packageId>
+      <displayName>Harmony</displayName>
+      <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+      <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
+    </li>
+  </modDependencies>
+  <loadAfter>
+    <li>brrainz.harmony</li>
+    <li>falconne.BWM</li>
+  </loadAfter>
+  <incompatibleWith>
+    <li>Memegoddess.EverybodyGetsOne</li>
+  </incompatibleWith>
+  <modIconPath IgnoreIfNoMatchingField="True">TDEverybodyGetsOneIcon</modIconPath>
 </ModMetaData>

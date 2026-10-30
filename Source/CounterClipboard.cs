@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Collections.Generic;
@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Verse;
 using RimWorld;
 using HarmonyLib;
-using TD_Find_Lib;
 
 namespace Everybody_Gets_One
 {
@@ -20,7 +19,7 @@ namespace Everybody_Gets_One
 	[HarmonyPatch(typeof(Bill), nameof(Bill.DoInterface))]
 	public static class CounterClipboard
 	{
-		public static QuerySearch Clipboard;
+		public static PersonCounter Clipboard;
 
 		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
 		{
@@ -41,7 +40,7 @@ namespace Everybody_Gets_One
 		public static void CopyCounterFor(Bill bill)
 		{
 			if (bill is Bill_Production billP && billP.HasPersonCounter())
-				Clipboard = billP.GetPersonCounter().CloneInactive();
+				Clipboard = billP.GetPersonCounter().Clone();
 			else
 				Clipboard = null;
 			Log.Message($"Setting Clipboard to {Clipboard}");
@@ -54,7 +53,7 @@ namespace Everybody_Gets_One
 	// Bill bill = BillUtility.Clipboard.Clone();
 	// bill.InitializeAfterClone();
 	// SelTable.billStack.AddBill(bill);
-	[HarmonyPatch(typeof(ITab_Bills), nameof(ITab_Bills.FillTab))]
+	[HarmonyPatch(typeof(ITab_Bills), "FillTab")]
 	public static class CounterClipboardPaste
 	{
 		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
@@ -81,12 +80,10 @@ namespace Everybody_Gets_One
 			Log.Message($"Added bill {bill}");
 
 			// Also do this:
-			if(CounterClipboard.Clipboard is QuerySearch clip && bill is Bill_Production billP)
+			if(CounterClipboard.Clipboard is PersonCounter clip && bill is Bill_Production billP)
 			{
-				Map map = billP.Map;
-
-				Log.Message($"Setting Search to Clipboard");
-				billP.SetPersonCounter(clip.CloneForUseSingle(map));
+				Log.Message($"Setting person counter to Clipboard");
+				billP.SetPersonCounter(clip.Clone());
 			}
 		}
 	}

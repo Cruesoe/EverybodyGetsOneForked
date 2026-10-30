@@ -8,7 +8,7 @@ using Verse;
 using Verse.AI;
 using RimWorld;
 using HarmonyLib;
-using TD.Utilities;
+using Everybody_Gets_One.Utilities;
 
 namespace Everybody_Gets_One
 {
@@ -280,7 +280,7 @@ namespace Everybody_Gets_One
 			FieldInfo unpauseWhenYouHaveInfo = AccessTools.Field(typeof(Bill_Production), nameof(Bill_Production.unpauseWhenYouHave));
 
 			FieldInfo targetCountAdjustmentInfo = AccessTools.Field(typeof(RecipeDef), nameof(RecipeDef.targetCountAdjustment));
-			FieldInfo billInfo = AccessTools.Field(typeof(Dialog_BillConfig), nameof(Dialog_BillConfig.bill));
+			FieldInfo billInfo = AccessTools.Field(typeof(Dialog_BillConfig), "bill");
 			FieldInfo repeatModeInfo = AccessTools.Field(typeof(Bill_Production), nameof(Bill_Production.repeatMode));
 
 			int todoTCByValue = 1;//first 2 counts of targetCount is displayed count, not X, so use Extensions.TargetCount instead to count people
@@ -418,10 +418,8 @@ namespace Everybody_Gets_One
 
 	public static class JobDriver_DoBill_Patch
 	{
-		static JobDriver_DoBill_Patch()
+		public static void Apply(Harmony harmony)
 		{
-			Harmony harmony = new Harmony("Uuugggg.rimworld.Everybody_Gets_One.main");
-
 			PatchCompilerGenerated.PatchGeneratedMethod(harmony, typeof(Verse.AI.JobDriver_DoBill),
 				method =>
 					//Here's a probably accurate way to find the initAction for the recount Toil
@@ -446,12 +444,16 @@ namespace Everybody_Gets_One
 	{
 		static ImprovedWorkbenches_Patch()
 		{
-			if(AccessTools.TypeByName("BillConfig_DoWindowContents_Patch") is Type patchType &&
+			Harmony harmony = new Harmony("cruesoe.everybodygetsoneforked");
+
+			if(AccessTools.TypeByName("ImprovedWorkbenches.BillConfig_DoWindowContents_Patch") is Type patchType &&
 				AccessTools.Method(patchType, "DrawFilters") is MethodInfo patchMethod)
-			{
-				Harmony harmony = new Harmony("Uuugggg.rimworld.Everybody_Gets_One.main");
-				harmony.Patch(patchMethod, transpiler: new HarmonyMethod(typeof(ImprovedWorkbenches_Patch), "Transpiler"));
-			}
+				harmony.Patch(patchMethod, transpiler: new HarmonyMethod(typeof(ImprovedWorkbenches_Patch), nameof(Transpiler)));
+
+			// Copies the person counter when BWM mirrors one bill onto another
+			if(AccessTools.TypeByName("ImprovedWorkbenches.ExtendedBillDataStorage") is Type storageType &&
+				AccessTools.Method(storageType, "MirrorBills") is MethodInfo mirrorMethod)
+				harmony.Patch(mirrorMethod, postfix: new HarmonyMethod(typeof(ImprovedWorkbenches_Patch), nameof(MirrorBillsPostfix)));
 		}
 
 		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
@@ -459,5 +461,12 @@ namespace Everybody_Gets_One
 			return OrPersonCount_Transpiler.TranspilerB(instructions, 9999, true);
 		}
 
+		public static void MirrorBillsPostfix(Bill_Production sourceBill, Bill_Production destinationBill)
+		{
+			if (sourceBill.HasPersonCounter())
+				destinationBill.SetPersonCounter(sourceBill.GetPersonCounter().Clone());
+			else
+				destinationBill.RemovePersonCounter();
+		}
 	}
 }

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Reflection;
 using HarmonyLib;
 using Verse;
 
-namespace TD.Utilities
+namespace Everybody_Gets_One.Utilities
 {
 	static class PatchCompilerGenerated
 	{
@@ -19,7 +18,7 @@ namespace TD.Utilities
 			{
 				Type type = nestedTypes.Pop();
 				nestedTypes.AddRange(type.GetNestedTypes(BindingFlags.NonPublic));
-				
+
 				foreach (MethodInfo method in AccessTools.GetDeclaredMethods(type).Where(check))
 				{
 					harmony.Patch(method, prefix, postfix, transpiler);
