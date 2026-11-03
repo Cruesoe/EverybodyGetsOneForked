@@ -33,7 +33,7 @@ namespace Everybody_Gets_One.Patches
 			options.Add(new FloatMenuOption(RepeatModeDefOf.TD_XPerPerson.LabelCap, () => SetCountedMode(bill, RepeatModeDefOf.TD_XPerPerson)));
 			options.Add(new FloatMenuOption(RepeatModeDefOf.TD_WithSurplusIng.LabelCap, delegate
 			{
-				if (bill.recipe.ingredients.Count != 1)
+				if (!bill.CanUse(RepeatModeDefOf.TD_WithSurplusIng))
 					Messages.Message("TD.RecipeCannotHaveSurplus".Translate(), MessageTypeDefOf.RejectInput, false);
 				else
 					bill.repeatMode = RepeatModeDefOf.TD_WithSurplusIng;
@@ -43,7 +43,7 @@ namespace Everybody_Gets_One.Patches
 
 		private static void SetCountedMode(Bill_Production bill, BillRepeatModeDef mode)
 		{
-			if (!bill.recipe.WorkerCounter.CanCountProducts(bill))
+			if (!bill.CanUse(mode))
 				Messages.Message("RecipeCannotHaveTargetCount".Translate(), MessageTypeDefOf.RejectInput, false);
 			else
 				bill.repeatMode = mode;
