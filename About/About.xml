@@ -3,7 +3,7 @@
   <name>Everybody Gets One Forked</name>
   <author>Cruesoe, Uuugggg, Memegoddess</author>
   <packageId>cruesoe.everybodygetsoneforked</packageId>
-  <modVersion IgnoreIfNoMatchingField="True">261030</modVersion>
+  <modVersion IgnoreIfNoMatchingField="True">261103</modVersion>
   <supportedVersions>
     <li>1.6</li>
     <li>1.7</li>
