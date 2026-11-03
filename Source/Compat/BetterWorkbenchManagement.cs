@@ -31,8 +31,12 @@ namespace Everybody_Gets_One.Compat
 		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) =>
 			OrPersonCountTranspiler.Transpiler(instructions, noSurplus: true);
 
+		// Mirroring copies any mode but "until you have X" without checking the destination recipe, so one it can't use falls back to "do X times"
 		public static void MirrorBillsPostfix(Bill_Production sourceBill, Bill_Production destinationBill)
 		{
+			if (!destinationBill.CanUse(destinationBill.repeatMode))
+				destinationBill.repeatMode = BillRepeatModeDefOf.RepeatCount;
+
 			if (sourceBill.HasPersonCounter())
 				destinationBill.SetPersonCounter(sourceBill.GetPersonCounter().Clone());
 			else

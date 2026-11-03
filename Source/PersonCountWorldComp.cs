@@ -17,8 +17,9 @@ namespace Everybody_Gets_One
 		private List<PersonCounter> scribeCounters;
 		public override void ExposeData()
 		{
+			// Drops counters for deleted bills, bills on destroyed tables and bills no longer in their stack
 			if (Scribe.mode == LoadSaveMode.Saving)
-				personCounters.RemoveAll(kv => kv.Key.billStack == null || kv.Key.DeletedOrDereferenced);
+				personCounters.RemoveAll(kv => kv.Key.billStack == null || kv.Key.DeletedOrDereferenced || !kv.Key.billStack.Bills.Contains(kv.Key));
 
 			Scribe_Deep.Look(ref defaultCounter, "defaultCounter");
 			// The original mod saved TD Find Library searches under "billPersonCounters"; those are left unread

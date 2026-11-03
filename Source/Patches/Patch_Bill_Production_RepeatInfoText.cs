@@ -10,7 +10,7 @@ namespace Everybody_Gets_One.Patches
 		{
 			if (__instance.repeatMode == RepeatModeDefOf.TD_PersonCount)
 			{
-				__result = $"{__instance.recipe.WorkerCounter.CountProducts(__instance)}/({__instance.CurrentPersonCount()}+{__instance.targetCount})";
+				__result = $"{__instance.recipe.WorkerCounter.CountProducts(__instance)}/({__instance.CurrentPersonCount()}{__instance.targetCount:+0;-0})";
 				return false;
 			}
 			if (__instance.repeatMode == RepeatModeDefOf.TD_XPerPerson)
