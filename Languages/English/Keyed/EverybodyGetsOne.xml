@@ -10,6 +10,18 @@
   <EGO_CountQuestLodgers>Quest lodgers</EGO_CountQuestLodgers>
   <EGO_CountMechanoids>Colony mechanoids</EGO_CountMechanoids>
   <EGO_CountAnimals>Colony animals</EGO_CountAnimals>
+  <EGO_FiltersHeader>Only count people who match:</EGO_FiltersHeader>
+  <EGO_FiltersHeaderTip>Applies to colonists, slaves, prisoners and quest lodgers. Colony mechanoids and animals are not filtered.</EGO_FiltersHeaderTip>
+  <EGO_CountAdults>Adults</EGO_CountAdults>
+  <EGO_CountChildren>Children</EGO_CountChildren>
+  <EGO_CountBabies>Babies</EGO_CountBabies>
+  <EGO_FilterXenotype>Xenotype</EGO_FilterXenotype>
+  <EGO_FilterIdeo>Ideoligion</EGO_FilterIdeo>
+  <EGO_FilterApparelPolicy>Apparel policy</EGO_FilterApparelPolicy>
+  <EGO_FilterApparelPolicyTip>Prisoners have no apparel policy, so they aren't counted while this is set.</EGO_FilterApparelPolicyTip>
+  <EGO_FilterAny>Any</EGO_FilterAny>
+  <EGO_FilterSelected>{0} selected</EGO_FilterSelected>
+  <EGO_FilterAcceptAny>Accept any</EGO_FilterAcceptAny>
   <EGO_CountThisMap>Count people on this bill's map</EGO_CountThisMap>
   <EGO_CountAllMaps>Count people on every map</EGO_CountAllMaps>
   <EGO_CountedNow>Counted now: {0}</EGO_CountedNow>
