@@ -1,6 +1,6 @@
 [b]Set a bill to craft things until there's one for each person in the colony.[/b]
 
-A fork of Everybody Gets One - Continued that needs only Harmony. The original relies on TD Find Library for one window; this version has that window built in, as a simple checklist.
+A fork of Everybody Gets One - Continued that needs only Harmony. The original relies on TD Find Library for one window; this version has that window built in.
 
 [h2]Features[/h2]
 [list]
@@ -8,6 +8,7 @@ A fork of Everybody Gets One - Continued that needs only Harmony. The original r
 [*][b]Do X per person[/b] keeps X items for every person.
 [*][b]Do while more than X[/b] crafts while you have more than X of the recipe's ingredient.
 [*]Each per-person bill has an "Edit who counts as a person" button, where you can count colonists, slaves, prisoners, quest lodgers, colony mechanoids or colony animals, on the bill's map or on every map.
+[*]Narrow who counts by age (adults, children, babies), xenotype, ideoligion or apparel policy.
 [*]"Set as default" makes those choices the default for every bill you haven't changed.
 [*]"Count equipped" counts only the pawns the bill counts as people.
 [*]Copying and pasting a bill also copies who it counts.

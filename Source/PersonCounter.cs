@@ -25,10 +25,16 @@ namespace Everybody_Gets_One
 		public List<Ideo> ideos = new();
 		public List<ApparelPolicy> apparelPolicies = new();
 
-		// Count cached for one tick and one map
+		// Counted pawns cached for one tick, per map, or once for all maps
+		private class CountedCache
+		{
+			public List<Pawn> pawns;
+			public List<Pawn> equippable;
+		}
 		private int cachedTick = -1;
-		private Map cachedMap;
-		private int cachedCount;
+		private Dictionary<Map, CountedCache> cachedByMap = new();
+		private CountedCache cachedAllMaps;
+		private static readonly CountedCache Empty = new() { pawns = new(), equippable = new() };
 
 		public bool Counts(Pawn pawn) => CountsType(pawn) && (!pawn.RaceProps.Humanlike || MatchesFilters(pawn));
 
@@ -85,30 +91,44 @@ namespace Everybody_Gets_One
 				apparelPolicies.RemoveAll(policy => !Current.Game.outfitDatabase.AllOutfits.Contains(policy));
 		}
 
-		public IEnumerable<Pawn> CountedPawns(Map billMap)
-		{
-			IEnumerable<Map> maps = allMaps ? Find.Maps : billMap != null ? new[] { billMap } : Enumerable.Empty<Map>();
-			return maps.SelectMany(map => map.mapPawns.AllPawnsSpawned).Where(Counts);
-		}
-
-		public int Count(Map billMap)
+		private CountedCache Counted(Map billMap)
 		{
 			int tick = Find.TickManager.TicksGame;
-			if (tick != cachedTick || billMap != cachedMap)
+			if (tick != cachedTick)
 			{
 				RemoveDeleted();
-				cachedCount = CountedPawns(billMap).Count();
+				cachedByMap.Clear();
+				cachedAllMaps = null;
 				cachedTick = tick;
-				cachedMap = billMap;
 			}
-			return cachedCount;
+			if (allMaps)
+				return cachedAllMaps ??= new() { pawns = Find.Maps.SelectMany(map => map.mapPawns.AllPawnsSpawned).Where(Counts).ToList() };
+			if (billMap == null)
+				return Empty;
+			if (!cachedByMap.TryGetValue(billMap, out CountedCache cache))
+				cachedByMap[billMap] = cache = new() { pawns = billMap.mapPawns.AllPawnsSpawned.Where(Counts).ToList() };
+			return cache;
 		}
+
+		// The returned lists are shared caches: read them, don't change them
+		public List<Pawn> CountedPawns(Map billMap) => Counted(billMap).pawns;
+
+		// Counted pawns that can hold equipment, apparel and inventory
+		public List<Pawn> EquippablePawns(Map billMap)
+		{
+			CountedCache cache = Counted(billMap);
+			return cache.equippable ??= cache.pawns.Where(p => p.equipment != null && p.apparel != null && p.inventory != null).ToList();
+		}
+
+		public int Count(Map billMap) => CountedPawns(billMap).Count;
 
 		public void ClearCache() => cachedTick = -1;
 
 		public PersonCounter Clone()
 		{
 			PersonCounter clone = (PersonCounter)MemberwiseClone();
+			clone.cachedByMap = new();
+			clone.cachedAllMaps = null;
 			clone.xenotypes = new(xenotypes);
 			clone.customXenotypes = new(customXenotypes);
 			clone.ideos = new(ideos);

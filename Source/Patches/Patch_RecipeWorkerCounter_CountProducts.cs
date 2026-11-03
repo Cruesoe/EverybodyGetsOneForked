@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
@@ -31,7 +30,7 @@ namespace Everybody_Gets_One.Patches
 		public static List<Pawn> FreeColonistsSpawnedOrCountedPawns(MapPawns mapPawns, Bill_Production bill)
 		{
 			if (bill.repeatMode.IsPerPerson())
-				return bill.PersonCounterOrDefault().CountedPawns(bill.Map).Where(p => p.equipment != null && p.apparel != null && p.inventory != null).ToList();
+				return bill.PersonCounterOrDefault().EquippablePawns(bill.Map);
 			return mapPawns.FreeColonistsSpawned;
 		}
 	}

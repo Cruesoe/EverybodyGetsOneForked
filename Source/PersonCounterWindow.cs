@@ -53,9 +53,13 @@ namespace Everybody_Gets_One
 			CheckboxIn(new Rect(ageRow.x + third, ageRow.y, third - 10f, ageRow.height), "EGO_CountChildren", ref counter.children, ModsConfig.BiotechActive, ModContentPack.BiotechModPackageId, true);
 			CheckboxIn(new Rect(ageRow.x + 2f * third, ageRow.y, third - 10f, ageRow.height), "EGO_CountBabies", ref counter.babies, ModsConfig.BiotechActive, ModContentPack.BiotechModPackageId, true);
 			listing.Gap(listing.verticalSpacing);
-			FilterButton(listing, "EGO_FilterXenotype", XenotypeOptions, () => { counter.xenotypes.Clear(); counter.customXenotypes.Clear(); }, ModsConfig.BiotechActive, ModContentPack.BiotechModPackageId, null);
-			FilterButton(listing, "EGO_FilterIdeo", IdeoOptions, () => counter.ideos.Clear(), ModsConfig.IdeologyActive, ModContentPack.IdeologyModPackageId, null);
-			FilterButton(listing, "EGO_FilterApparelPolicy", ApparelPolicyOptions, () => counter.apparelPolicies.Clear(), true, null, "EGO_FilterApparelPolicyTip".Translate());
+			FilterButton(listing, "EGO_FilterXenotype", counter.xenotypes.Count + counter.customXenotypes.Count,
+				() => counter.xenotypes.Count > 0 ? counter.xenotypes[0].LabelCap.Resolve() : counter.customXenotypes[0].CapitalizeFirst(),
+				XenotypeOptions, () => { counter.xenotypes.Clear(); counter.customXenotypes.Clear(); }, ModsConfig.BiotechActive, ModContentPack.BiotechModPackageId, null);
+			FilterButton(listing, "EGO_FilterIdeo", counter.ideos.Count, () => counter.ideos[0].name.CapitalizeFirst(),
+				IdeoOptions, () => counter.ideos.Clear(), ModsConfig.IdeologyActive, ModContentPack.IdeologyModPackageId, null);
+			FilterButton(listing, "EGO_FilterApparelPolicy", counter.apparelPolicies.Count, () => counter.apparelPolicies[0].label,
+				ApparelPolicyOptions, () => counter.apparelPolicies.Clear(), true, null, "EGO_FilterApparelPolicyTip".Translate());
 
 			listing.GapLine();
 			if (listing.RadioButton("EGO_CountThisMap".Translate(), !counter.allMaps))
@@ -119,21 +123,13 @@ namespace Everybody_Gets_One
 				list.Remove(item);
 		}
 
-		// A labelled button showing what the filter accepts; it opens the filter's checklist
-		private static void FilterButton(Listing_Standard listing, string key, Func<List<FilterOption>> getOptions, Action clear, bool available, string requiredPackageId, string tooltip)
+		// A labelled button showing what the filter accepts; it opens the filter's checklist, whose options are built only then
+		private static void FilterButton(Listing_Standard listing, string key, int selectedCount, Func<string> singleLabel, Func<List<FilterOption>> getOptions, Action clear, bool available, string requiredPackageId, string tooltip)
 		{
 			Rect rect = listing.GetRect(30f);
 			Widgets.Label(rect.LeftPart(0.4f), key.Translate());
 			Rect buttonRect = rect.RightPart(0.6f);
-			string summary = "EGO_FilterAny".Translate();
-			if (available)
-			{
-				List<FilterOption> on = getOptions().Where(option => option.isOn()).ToList();
-				if (on.Count == 1)
-					summary = on[0].label;
-				else if (on.Count > 1)
-					summary = "EGO_FilterSelected".Translate(on.Count);
-			}
+			string summary = !available || selectedCount == 0 ? "EGO_FilterAny".Translate().Resolve() : selectedCount == 1 ? singleLabel() : "EGO_FilterSelected".Translate(selectedCount).Resolve();
 			if (Widgets.ButtonText(buttonRect, summary, active: available) && available)
 				Find.WindowStack.Add(new FilterChecklistWindow(key.Translate(), getOptions(), clear));
 			if (!available)
